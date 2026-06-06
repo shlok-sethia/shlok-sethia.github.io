@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shlok Sethia — Senior ML Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #090c10;
+      --bg-card:   #0e1318;
+      --bg-hover:  #131a22;
+      --border:    rgba(255,255,255,0.07);
+      --ink:       #e8eaf0;
+      --muted:     #6b7685;
+      --accent:    #00e5c0;
+      --accent2:   #5b8fff;
+      --gold:      #f5c542;
+      --red:       #ff5c6a;
+      --radius:    12px;
+      --mono:      'DM Mono', monospace;
+      --serif:     'DM Serif Display', serif;
+      --sans:      'Syne', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      opacity: 0.4;
+    }
+
+    .blob { position: fixed; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0; opacity: 0.18; }
+    .blob-1 { width: 600px; height: 600px; top: -200px; left: -200px; background: var(--accent2); }
+    .blob-2 { width: 500px; height: 500px; bottom: -150px; right: -150px; background: var(--accent); }
+    .blob-3 { width: 300px; height: 300px; top: 40%; left: 55%; background: var(--gold); opacity: 0.08; }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(9,12,16,0.75);
+      backdrop-filter: blur(18px);
+    }
+    .nav-logo { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* ── Hero ── */
+    #about {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 4rem;
+      padding: 8rem 6rem 5rem;
+    }
+
+    .hero-text { max-width: 560px; }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1.5rem; opacity: 0;
+      animation: fadeUp 0.8s 0.1s forwards;
+    }
+    .hero-eyebrow::before { content: ''; display: inline-block; width: 28px; height: 1px; background: var(--accent); }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 5.5vw, 5rem);
+      line-height: 1.05; letter-spacing: -0.02em;
+      color: var(--ink); margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp 0.8s 0.25s forwards;
+    }
+    h1 em { font-style: italic; color: var(--accent); }
+
+    .hero-bio { font-size: 1.05rem; color: var(--muted); max-width: 440px; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.8s 0.4s forwards; }
+
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.8s 0.55s forwards; }
+    .tag { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; color: var(--accent2); background: rgba(91,143,255,0.08); border: 1px solid rgba(91,143,255,0.2); padding: 0.3rem 0.8rem; border-radius: 99px; }
+
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s 0.7s forwards; }
+
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.6rem; border-radius: var(--radius); font-family: var(--sans); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; text-decoration: none; transition: all 0.25s; cursor: pointer; }
+    .btn-primary { background: var(--accent); color: #090c10; }
+    .btn-primary:hover { background: #00ffd5; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,229,192,0.3); }
+    .btn-ghost { background: transparent; color: var(--ink); border: 1px solid var(--border); }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.25); background: var(--bg-hover); transform: translateY(-2px); }
+
+    .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; opacity: 0; animation: fadeUp 0.9s 0.6s forwards; }
+
+    .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem 1.5rem; position: relative; overflow: hidden; transition: border-color 0.2s, transform 0.2s; }
+    .stat-card:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-3px); }
+    .stat-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+    .stat-card.c1::after { background: linear-gradient(90deg, var(--accent), transparent); }
+    .stat-card.c2::after { background: linear-gradient(90deg, var(--accent2), transparent); }
+    .stat-card.c3::after { background: linear-gradient(90deg, var(--gold), transparent); }
+    .stat-card.c4::after { background: linear-gradient(90deg, var(--red), transparent); }
+    .stat-num { font-family: var(--serif); font-size: 2.8rem; line-height: 1; color: var(--ink); margin-bottom: 0.35rem; }
+    .stat-label { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+
+    /* ── Sections ── */
+    section { position: relative; z-index: 1; padding: 6rem 6rem; }
+    section + section { border-top: 1px solid var(--border); }
+
+    .section-label { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.6rem; }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); max-width: 60px; }
+
+    h2 { font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 1rem; }
+    .section-intro { font-size: 1rem; color: var(--muted); max-width: 520px; margin-bottom: 3.5rem; }
+
+    /* ── Experience ── */
+    .exp-list { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .exp-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem 2.25rem;
+      position: relative; overflow: hidden;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    }
+    .exp-card:hover { border-color: rgba(255,255,255,0.14); transform: translateY(-3px); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+    .exp-card::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3px; }
+    .exp-card.walmart::before { background: linear-gradient(180deg, var(--accent), var(--accent2)); }
+    .exp-card.samsung::before { background: linear-gradient(180deg, var(--gold), var(--red)); }
+
+    .exp-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
+    .exp-company { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.3rem; }
+    .exp-role { font-family: var(--sans); font-size: 1.1rem; font-weight: 700; color: var(--ink); }
+    .exp-meta { text-align: right; }
+    .exp-location { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; }
+    .exp-date { font-family: var(--mono); font-size: 0.7rem; color: var(--accent2); letter-spacing: 0.08em; margin-top: 0.2rem; }
+
+    .exp-bullets { list-style: none; margin-top: 1.25rem; display: flex; flex-direction: column; gap: 0.65rem; }
+    .exp-bullets li { font-size: 0.9rem; color: var(--muted); padding-left: 1.2rem; position: relative; line-height: 1.6; }
+    .exp-bullets li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-family: var(--mono); font-size: 0.8rem; top: 0.1rem; }
+    .exp-bullets li strong { color: var(--ink); font-weight: 600; }
+
+    .exp-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.25rem; }
+    .chip { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; padding: 0.2rem 0.6rem; border-radius: 6px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--muted); }
+
+    /* ── Projects ── */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; }
+
+    .project-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; display: flex; flex-direction: column; gap: 1rem; transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s; position: relative; overflow: hidden; }
+    .project-card:hover { border-color: rgba(255,255,255,0.14); transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+
+    .project-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+    .icon-teal { background: rgba(0,229,192,0.12); }
+    .icon-blue { background: rgba(91,143,255,0.12); }
+    .icon-gold { background: rgba(245,197,66,0.12); }
+    .icon-red  { background: rgba(255,92,106,0.12); }
+
+    .project-title { font-family: var(--sans); font-size: 1.05rem; font-weight: 700; color: var(--ink); }
+    .project-desc { font-size: 0.9rem; color: var(--muted); flex: 1; }
+    .project-meta { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.25rem; }
+    .project-link { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; font-weight: 600; color: var(--accent); text-decoration: none; letter-spacing: 0.05em; transition: gap 0.2s; margin-top: auto; }
+    .project-link:hover { gap: 0.7rem; }
+    .project-link svg { width: 14px; height: 14px; }
+
+    /* ── Education ── */
+    .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+
+    .edu-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; position: relative; overflow: hidden; transition: border-color 0.2s, transform 0.2s; }
+    .edu-card:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-3px); }
+    .edu-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+    .edu-card.col::after { background: linear-gradient(90deg, var(--accent2), transparent); }
+    .edu-card.rv::after  { background: linear-gradient(90deg, var(--gold), transparent); }
+
+    .edu-school { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent2); margin-bottom: 0.4rem; }
+    .edu-degree { font-family: var(--sans); font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.4rem; }
+    .edu-gpa { font-family: var(--mono); font-size: 0.75rem; color: var(--accent); margin-bottom: 0.6rem; }
+    .edu-meta { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+    .edu-meta strong { color: var(--ink); font-weight: 600; }
+
+    /* ── Speaking / Publications ── */
+    .speaking-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+
+    .speak-col-title { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; }
+
+    .item-list { display: flex; flex-direction: column; gap: 1rem; }
+
+    .item { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.4rem 1.5rem; display: grid; grid-template-columns: auto 1fr; gap: 0 1rem; align-items: start; transition: border-color 0.2s, transform 0.2s; }
+    .item:hover { border-color: rgba(255,255,255,0.13); transform: translateX(4px); }
+
+    .item-badge { font-family: var(--mono); font-size: 0.65rem; color: var(--accent); letter-spacing: 0.1em; padding-top: 0.2rem; background: rgba(0,229,192,0.08); border: 1px solid rgba(0,229,192,0.2); padding: 0.2rem 0.5rem; border-radius: 4px; white-space: nowrap; height: fit-content; }
+    .item-venue { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; color: var(--accent2); margin-bottom: 0.3rem; }
+    .item-title { font-size: 0.92rem; font-weight: 600; color: var(--ink); margin-bottom: 0.2rem; }
+    .item-sub { font-size: 0.8rem; color: var(--muted); }
+
+    /* ── Contact ── */
+    #contact { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .contact-text h2 { margin-bottom: 0.8rem; }
+    .contact-text p { color: var(--muted); max-width: 380px; margin-bottom: 2rem; }
+    .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+
+    .contact-card { display: flex; align-items: center; gap: 1.25rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; text-decoration: none; transition: all 0.25s; }
+    .contact-card:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-2px); box-shadow: 0 12px 30px rgba(0,0,0,0.3); }
+
+    .contact-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .ci-linkedin { background: rgba(10,102,194,0.2); }
+    .ci-github   { background: rgba(255,255,255,0.07); }
+    .ci-email    { background: rgba(0,229,192,0.1); }
+    .ci-phone    { background: rgba(245,197,66,0.1); }
+    .contact-icon svg { width: 20px; height: 20px; }
+
+    .contact-card-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+    .contact-card-value { font-size: 0.95rem; font-weight: 600; color: var(--ink); }
+
+    .availability { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em; color: var(--accent); background: rgba(0,229,192,0.07); border: 1px solid rgba(0,229,192,0.2); padding: 0.5rem 1rem; border-radius: 99px; margin-bottom: 2rem; }
+    .availability::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+
+    /* Skills section */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; }
+    .skill-cat { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; transition: border-color 0.2s, transform 0.2s; }
+    .skill-cat:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-2px); }
+    .skill-cat-title { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .skill-tag { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; color: var(--ink); background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 0.25rem 0.65rem; border-radius: 6px; }
+
+    /* ── Footer ── */
+    footer { position: relative; z-index: 1; border-top: 1px solid var(--border); padding: 2rem 6rem; display: flex; align-items: center; justify-content: space-between; }
+    footer p { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.08em; }
+
+    /* ── Animations ── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { 0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,229,192,0.4); } 50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(0,229,192,0); } }
+
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.2rem; }
+      #about { grid-template-columns: 1fr; padding: 7rem 2rem 4rem; gap: 3rem; }
+      .hero-stats { grid-template-columns: 1fr 1fr; }
+      section { padding: 4rem 2rem; }
+      .speaking-layout { grid-template-columns: 1fr; }
+      .edu-grid { grid-template-columns: 1fr; }
+      #contact { grid-template-columns: 1fr; gap: 2.5rem; padding: 4rem 2rem; }
+      footer { padding: 1.5rem 2rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+    @media (max-width: 560px) {
+      .nav-links { display: none; }
+      h1 { font-size: 2.5rem; }
+      .hero-stats { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+      .stat-num { font-size: 2rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .exp-header { flex-direction: column; }
+      .exp-meta { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <!-- Nav -->
+  <nav>
+    <span class="nav-logo">SS / ML</span>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section id="about">
+    <div class="hero-text">
+      <div class="hero-eyebrow">Senior ML Engineer · Ads &amp; Marketing</div>
+      <h1>Building systems that<br><em>scale &amp; convert</em></h1>
+      <p class="hero-bio">
+        Senior ML Engineer at Walmart Global Tech with a Master's from Columbia (3.97 GPA).
+        Architect of bidding systems, NLP models, and recommendation engines driving
+        $300M+ in revenue — and a Kaggle Competition Expert ranked in the top 2% worldwide.
+      </p>
+      <div class="hero-tags">
+        <span class="tag">NLP</span>
+        <span class="tag">Bidding Systems</span>
+        <span class="tag">Two-Tower Models</span>
+        <span class="tag">MLOps</span>
+        <span class="tag">A/B Testing</span>
+        <span class="tag">PyTorch</span>
+        <span class="tag">Causal Inference</span>
+        <span class="tag">Kaggle Expert</span>
+      </div>
+      <div class="hero-cta">
+        <a href="#contact" class="btn btn-primary">Get in Touch</a>
+        <a href="#experience" class="btn btn-ghost">View Work</a>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-card c1">
+        <div class="stat-num">$300M+</div>
+        <div class="stat-label">Revenue Generated</div>
+      </div>
+      <div class="stat-card c2">
+        <div class="stat-num">40×</div>
+        <div class="stat-label">Platform Scale</div>
+      </div>
+      <div class="stat-card c3">
+        <div class="stat-num">Top 2%</div>
+        <div class="stat-label">Kaggle Worldwide</div>
+      </div>
+      <div class="stat-card c4">
+        <div class="stat-num">3.97</div>
+        <div class="stat-label">Columbia GPA</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section id="experience">
+    <div class="section-label">Career</div>
+    <h2>Work Experience</h2>
+    <p class="section-intro">
+      Production ML systems at scale — from vendor-funded auction engines to NLP-powered cold-start models.
+    </p>
+
+    <div class="exp-list reveal">
+
+      <div class="exp-card walmart">
+        <div class="exp-header">
+          <div>
+            <div class="exp-company">Walmart Global Tech</div>
+            <div class="exp-role">Senior Machine Learning Engineer — Ads &amp; Marketing</div>
+          </div>
+          <div class="exp-meta">
+            <div class="exp-location">Sunnyvale, USA</div>
+            <div class="exp-date">Jul 2022 – Present</div>
+          </div>
+        </div>
+        <ul class="exp-bullets">
+          <li><strong>Affiliates Item Recommendation:</strong> Led development of a Two-Tower NLP item recommendation model for Walmart's $11.3B affiliate market, combining item name embeddings with multi-channel traffic data and competitor metrics to drive higher sales and affiliate partner commissions.</li>
+          <li><strong>Coldstart BERT Model:</strong> Built an NLP model using metadata to predict conversion rates and RPC for "cold" items in paid channels — driving a <strong>30% traffic increase</strong> and <strong>22% catalog expansion</strong> while maintaining ROAS.</li>
+          <li><strong>Top Spender Bidder:</strong> Owned the full lifecycle of a PLA bidding system — design, modeling, A/B testing, deployment, and maintenance — leveraging near-real-time data to optimize ad ranking, control spend, and improve ROAS.</li>
+          <li><strong>Vendor-Funded Marketing Platform:</strong> One of the first ML engineers on the platform; built core bidding/auction algorithms, pacing scripts, and budget forecasting systems — scaling it <strong>40× and driving $300M+ in revenue</strong>.</li>
+        </ul>
+        <div class="exp-tags">
+          <span class="chip">Two-Tower NLP</span><span class="chip">BERT</span><span class="chip">Bidding Systems</span>
+          <span class="chip">A/B Testing</span><span class="chip">PyTorch</span><span class="chip">PySpark</span>
+          <span class="chip">Causal Inference</span><span class="chip">BigQuery</span>
+        </div>
+      </div>
+
+      <div class="exp-card samsung">
+        <div class="exp-header">
+          <div>
+            <div class="exp-company">Samsung Research</div>
+            <div class="exp-role">Senior Data Scientist — Samsung Pay</div>
+          </div>
+          <div class="exp-meta">
+            <div class="exp-location">Bangalore, India</div>
+            <div class="exp-date">Jun 2019 – Mar 2021</div>
+          </div>
+        </div>
+        <ul class="exp-bullets">
+          <li><strong>Churn Prediction Model:</strong> Designed and deployed an XGBoost classifier to predict quarterly churners, achieving <strong>83% accuracy</strong> via Grid Search and feature importance optimization.</li>
+          <li><strong>Landmark Recognition:</strong> Implemented an EfficientNet-B7 on PyTorch with cosine annealing, heavy augmentations, and SGD — earned an <strong>Exemplary Performance Award</strong> and promotion within 12 months.</li>
+          <li><strong>HDBSCAN Clustering &amp; Heatmap:</strong> Screened payment failures across Indian cities to identify red zones using HDBSCAN clustering, coordinating with on-field teams for zero slippage.</li>
+          <li><strong>Time Series Forecasting:</strong> Built ARIMA + LGBM ensemble models to predict user-based errors over 14 days using 30+ engineered features, achieving <strong>86% accuracy</strong>.</li>
+        </ul>
+        <div class="exp-tags">
+          <span class="chip">XGBoost</span><span class="chip">EfficientNet</span><span class="chip">HDBSCAN</span>
+          <span class="chip">ARIMA</span><span class="chip">LGBM</span><span class="chip">Feature Engineering</span>
+          <span class="chip">PyTorch</span><span class="chip">TensorFlow</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Projects / Kaggle -->
+  <section id="projects">
+    <div class="section-label">Competitions &amp; Projects</div>
+    <h2>Kaggle &amp; Applied ML</h2>
+    <p class="section-intro">
+      Competition Expert ranked in the top 2% globally — medal-winning solutions in computer vision and medical imaging.
+    </p>
+
+    <div class="projects-grid reveal">
+
+      <div class="project-card">
+        <div class="project-icon icon-teal">🥈</div>
+        <div class="project-title">Data Science Bowl — Silver Medal</div>
+        <p class="project-desc">
+          Finished in the top 3% in the world's largest data science competition, earning a Silver Medal with an end-to-end deep learning pipeline.
+        </p>
+        <div class="project-meta">
+          <span class="chip">Deep Learning</span><span class="chip">Computer Vision</span><span class="chip">Ensemble</span>
+        </div>
+        <a href="https://www.kaggle.com/shlok-sethia" target="_blank" rel="noopener" class="project-link">
+          View on Kaggle
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon icon-blue">🥉</div>
+        <div class="project-title">APTOS Blindness Detection — Bronze Medal</div>
+        <p class="project-desc">
+          Built a model on rural-collected fundus images to detect diabetic retinopathy, glaucoma, and macular degeneration — speeding up detection by <strong>36%</strong>.
+        </p>
+        <div class="project-meta">
+          <span class="chip">Medical Imaging</span><span class="chip">CNN</span><span class="chip">PyTorch</span>
+        </div>
+        <a href="https://www.kaggle.com/shlok-sethia" target="_blank" rel="noopener" class="project-link">
+          View on Kaggle
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon icon-gold">📈</div>
+        <div class="project-title">Stock Market Prediction with NLP</div>
+        <p class="project-desc">
+          Published research on risk analysis and stock market prediction combining ML models with NLP-based sentiment signals — featured in IJAER.
+        </p>
+        <div class="project-meta">
+          <span class="chip">NLP</span><span class="chip">Time Series</span><span class="chip">Sentiment Analysis</span>
+        </div>
+        <a href="#publications" class="project-link">
+          Read Publication
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon icon-red">🏆</div>
+        <div class="project-title">Object Classification — Best Paper Award</div>
+        <p class="project-desc">
+          Received Best Paper Award for "Object Classification based on Spatial Orientation" at ICCUBEA, published as an IEEE paper.
+        </p>
+        <div class="project-meta">
+          <span class="chip">Computer Vision</span><span class="chip">IEEE</span><span class="chip">Spatial Orientation</span>
+        </div>
+        <a href="#publications" class="project-link">
+          Read Paper
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section id="education">
+    <div class="section-label">Academic Background</div>
+    <h2>Education</h2>
+    <p class="section-intro">Strong academic foundation bridging computer science, analytics, and machine learning research.</p>
+
+    <div class="edu-grid reveal">
+      <div class="edu-card col">
+        <div class="edu-school">Columbia University · New York City, USA</div>
+        <div class="edu-degree">M.S. in Business Analytics</div>
+        <div class="edu-gpa">GPA: 3.97 / 4.0 · July 2022</div>
+        <div class="edu-meta">
+          <strong>Coursework:</strong> Machine Learning, Optimization Models, Probability &amp; Statistics, Marketing Analytics, Algorithmic Trading<br><br>
+          <strong>Course Assistant:</strong> Machine Learning · Tools for Analytics (Python)
+        </div>
+      </div>
+      <div class="edu-card rv">
+        <div class="edu-school">RV College of Engineering · Bangalore, India</div>
+        <div class="edu-degree">B.E. in Computer Science</div>
+        <div class="edu-gpa">GPA: 9.7 / 10.0 · May 2019</div>
+        <div class="edu-meta">
+          <strong>Rank:</strong> 3 out of 320 students<br><br>
+          <strong>Scholarship:</strong> Merit-based Infineon Scholarship — awarded to top 1% of students
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <div class="section-label">Technical Skills</div>
+    <h2>Skills &amp; Stack</h2>
+    <p class="section-intro">End-to-end ML: from feature engineering and model development to deployment and monitoring.</p>
+
+    <div class="skills-grid reveal">
+      <div class="skill-cat">
+        <div class="skill-cat-title">Languages &amp; Query</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Python</span><span class="skill-tag">SQL</span><span class="skill-tag">PySpark</span>
+          <span class="skill-tag">Hive</span><span class="skill-tag">BigQuery</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">ML &amp; Frameworks</div>
+        <div class="skill-tags">
+          <span class="skill-tag">PyTorch</span><span class="skill-tag">TensorFlow</span><span class="skill-tag">XGBoost</span>
+          <span class="skill-tag">LGBM</span><span class="skill-tag">Scikit-learn</span><span class="skill-tag">BERT</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">Experimentation</div>
+        <div class="skill-tags">
+          <span class="skill-tag">A/B Testing</span><span class="skill-tag">Causal Inference</span>
+          <span class="skill-tag">Statistics</span><span class="skill-tag">Feature Engineering</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">Infrastructure</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Apache Airflow</span><span class="skill-tag">Docker</span>
+          <span class="skill-tag">Podman</span><span class="skill-tag">Git</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">Domain Expertise</div>
+        <div class="skill-tags">
+          <span class="skill-tag">NLP</span><span class="skill-tag">Bidding Systems</span>
+          <span class="skill-tag">Recommendation</span><span class="skill-tag">Marketing &amp; Ads</span>
+          <span class="skill-tag">Time Series</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">Interests</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Kaggle</span><span class="skill-tag">Board Games</span>
+          <span class="skill-tag">Soccer (Man United)</span><span class="skill-tag">Formula 1</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Publications -->
+  <section id="publications">
+    <div class="section-label">Thought Leadership</div>
+    <h2>Publications &amp; Awards</h2>
+    <p class="section-intro">Peer-reviewed research across NLP, computer vision, and applied machine learning.</p>
+
+    <div class="speaking-layout reveal">
+      <div>
+        <div class="speak-col-title">Research Publications</div>
+        <div class="item-list">
+          <div class="item">
+            <div class="item-badge">IJAER</div>
+            <div>
+              <div class="item-venue">International Journal of Advanced Engineering Research</div>
+              <div class="item-title">Risk Analysis and Prediction of the Stock Market using Machine Learning and NLP</div>
+              <div class="item-sub">Sethia et al. — Published</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="item-badge">IEEE</div>
+            <div>
+              <div class="item-venue">ICCUBEA — IEEE Publication</div>
+              <div class="item-title">Object Classification based on Spatial Orientation</div>
+              <div class="item-sub">🏆 Best Paper Award</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="speak-col-title">Awards &amp; Recognition</div>
+        <div class="item-list">
+          <div class="item">
+            <div class="item-badge">Samsung</div>
+            <div>
+              <div class="item-venue">Samsung Research</div>
+              <div class="item-title">Exemplary Performance Award</div>
+              <div class="item-sub">Landmark Recognition project · Promoted within 12 months</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="item-badge">Samsung</div>
+            <div>
+              <div class="item-venue">Samsung Research</div>
+              <div class="item-title">Advanced Software Competency Award</div>
+              <div class="item-sub">Top 2% performers in the organization</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="item-badge">Kaggle</div>
+            <div>
+              <div class="item-venue">Kaggle · Competitions Expert</div>
+              <div class="item-title">Top 2% Globally — Silver + Bronze Medals</div>
+              <div class="item-sub">Data Science Bowl (Top 3%) · APTOS Blindness Detection</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="item-badge">RV CoE</div>
+            <div>
+              <div class="item-venue">RV College of Engineering</div>
+              <div class="item-title">Infineon Merit Scholarship + Class Rank 3/320</div>
+              <div class="item-sub">Awarded to top 1% of students</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="contact-text">
+      <div class="section-label">Contact</div>
+      <h2>Let's build something impactful</h2>
+      <p>
+        Open to senior ML engineering roles, research collaborations,
+        and advisory opportunities in ads, marketing, and applied AI.
+      </p>
+      <div class="availability">Open to new opportunities</div>
+    </div>
+
+    <div class="contact-links reveal">
+      <a href="https://linkedin.com/in/shlok-sethia" target="_blank" rel="noopener" class="contact-card">
+        <div class="contact-icon ci-linkedin">
+          <svg viewBox="0 0 24 24" fill="#0a66c2"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 110-4.12 2.06 2.06 0 010 4.12zM6.62 20.45H4.06V9h2.56v11.45zM22.23 0H1.77C.8 0 0 .77 0 1.72v20.56C0 23.23.8 24 1.77 24h20.46C23.2 24 24 23.23 24 22.28V1.72C24 .77 23.2 0 22.23 0z"/></svg>
+        </div>
+        <div>
+          <div class="contact-card-label">LinkedIn</div>
+          <div class="contact-card-value">linkedin.com/in/shlok-sethia</div>
+        </div>
+      </a>
+
+      <a href="mailto:shloksethia7@gmail.com" class="contact-card">
+        <div class="contact-icon ci-email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#00e5c0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div>
+          <div class="contact-card-label">Email</div>
+          <div class="contact-card-value">shloksethia7@gmail.com</div>
+        </div>
+      </a>
+
+      <a href="tel:+12792783385" class="contact-card">
+        <div class="contact-icon ci-phone">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#f5c542" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <div>
+          <div class="contact-card-label">Phone</div>
+          <div class="contact-card-value">(279) 278-3385</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Shlok Sethia. All rights reserved.</p>
+    <p>Kaggle Expert · Columbia MS · Walmart Global Tech</p>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
