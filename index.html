@@ -549,37 +549,6 @@
       0%, 100% { opacity: 1; }
       50%       { opacity: 0; }
     }
-    /* MOBILE TWEAKS: keep floating labels visible and reduce right-side gaps */
-    @media (max-width: 480px) {
-      .photo-card-wrap { overflow: visible; }
-      /* Override inline negative offsets so labels sit on-screen */
-      .float-label {
-        left: 8px !important;
-        right: auto !important;
-        font-size: 0.62rem;
-        padding: 0.28rem 0.6rem;
-        white-space: nowrap;
-        transform: none !important;
-      }
-      /* Slightly tighter section padding on small phones to avoid large right gutters */
-      section { padding: 3rem 1rem; }
-      footer { padding: 1rem; }
-      /* Make photo card a bit smaller so it fits comfortably */
-      .photo-card { width: 260px; }
-      .photo-stats { min-width: 0; flex-wrap: wrap; }
-      /* Ensure section children don't leave large right gutters */
-      .section-intro { max-width: 100%; }
-      .arsenal-table { max-width: none; width: 100%; margin: 0; border-left: none; border-right: none; }
-      .arsenal-col { padding-left: 0.6rem; padding-right: 0.6rem; }
-      .projects-grid { grid-template-columns: 1fr; gap: 0.75rem; }
-      .project-card, .edu-card, .patent-card, .exp-card, .tr-card { width: 100%; margin: 0; }
-      .edu-grid { grid-template-columns: 1fr; gap: 0.9rem; }
-      .exp-list { padding: 0; }
-      .photo-stat { min-width: 0; flex: 1 1 45%; }
-      img { max-width: 100%; height: auto; }
-      /* reset any accidental horizontal overflow from long inline text */
-      .exp-role, .project-title, .tr-title { overflow-wrap: anywhere; }
-    }
   </style>
 </head>
 <body>
