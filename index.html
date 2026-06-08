@@ -55,9 +55,9 @@
     .btn-ghost:hover { border-color: rgba(255,255,255,0.25); background: var(--bg-hover); transform: translateY(-2px); }
 
     /* PHOTO CARD */
-    .photo-col { display: flex; flex-direction: column; align-items: center; gap: 1.25rem; opacity: 0; animation: fadeUp 0.9s 0.5s forwards; }
-    .photo-card-wrap { position: relative; }
-    .photo-card { position: relative; width: 300px; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,229,192,0.08); }
+    .photo-col { display: flex; flex-direction: column; align-items: center; gap: 1.25rem; opacity: 0; animation: fadeUp 0.9s 0.5s forwards; width: 100%; max-width: 320px; }
+    .photo-card-wrap { position: relative; width: 100%; }
+    .photo-card { position: relative; width: 100%; max-width: 300px; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,229,192,0.08); }
     .photo-card img { width: 100%; display: block; object-fit: cover; aspect-ratio: 3/4; }
     .photo-card::after { content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 55%; background: linear-gradient(to top, rgba(9,12,16,0.96) 0%, transparent 100%); pointer-events: none; }
     .photo-card-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.4rem; z-index: 2; }
