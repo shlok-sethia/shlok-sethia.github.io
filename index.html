@@ -56,7 +56,7 @@
 
     /* PHOTO CARD */
     .photo-col { display: flex; flex-direction: column; align-items: center; gap: 1.25rem; opacity: 0; animation: fadeUp 0.9s 0.5s forwards; width: 100%; max-width: 320px; }
-    .photo-card-wrap { position: relative; width: 100%; }
+    .photo-card-wrap { position: relative; width: 100%; overflow: hidden; }
     .photo-card { position: relative; width: 100%; max-width: 300px; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,229,192,0.08); }
     .photo-card img { width: 100%; display: block; object-fit: cover; aspect-ratio: 3/4; }
     .photo-card::after { content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 55%; background: linear-gradient(to top, rgba(9,12,16,0.96) 0%, transparent 100%); pointer-events: none; }
@@ -75,9 +75,10 @@
     @keyframes floatBob { from { transform: translateY(0px); } to { transform: translateY(-9px); } }
 
     /* STATS ROW */
-    .photo-stats { display: flex; width: 100%; min-width: 300px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
-    .photo-stat { flex: 1; padding: 1.2rem 0.75rem; text-align: center; border-right: 1px solid var(--border); transition: background 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .photo-stat:last-child { border-right: none; }
+    .photo-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+    .photo-stat { padding: 1.2rem 0.75rem; text-align: center; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); transition: background 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 0; }
+    .photo-stat:nth-child(4n) { border-right: none; }
+    .photo-stat:nth-last-child(-n+4) { border-bottom: none; }
     .photo-stat:hover { background: var(--bg-hover); }
     .photo-stat-num { font-family: var(--serif); font-size: 1.25rem; line-height: 1; color: var(--ink); }
     .photo-stat-lbl { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-top: 0.5rem; word-wrap: break-word; white-space: normal; line-height: 1.2; }
@@ -515,12 +516,16 @@
       .edu-grid { grid-template-columns: 1fr; }
       .arsenal-header { grid-template-columns: 1fr; }
       .arsenal-table { grid-template-columns: repeat(2, minmax(180px, 1fr)); }
+      .photo-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .photo-stat:nth-child(2n) { border-right: none; }
+      .photo-stat:nth-last-child(-n+2) { border-bottom: none; }
       #contact { grid-template-columns: 1fr; gap: 2.5rem; padding: 4rem 2rem; }
       footer { padding: 1.5rem 2rem; flex-direction: column; gap: 0.5rem; text-align: center; }
       .patent-header-row { flex-direction: column; }
       .patent-header-right { text-align: left; }
       .patent-card { padding: 1.75rem; }
       .patent-card-name { font-size: 2.2rem; }
+      .float-label { display: none; }
     }
     @media (max-width: 780px) {
       .projects-grid { grid-template-columns: 1fr; }
@@ -529,7 +534,10 @@
       .nav-links { display: none; }
       h1 { font-size: 2.5rem; }
       .projects-grid { grid-template-columns: 1fr; }
-      .exp-header { flex-direction: column; } .exp-meta { text-align: left; }
+      .exp-header { flex-direction: column; } .exp-meta { text-align: left; min-width: 0; }
+      .photo-stats { grid-template-columns: 1fr; }
+      .photo-stat { border-right: none; }
+      .photo-stat:nth-last-child(-n+1) { border-bottom: none; }
     }
 
     /* BLINKING CURSOR */
