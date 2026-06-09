@@ -527,7 +527,11 @@
     }
     @media (max-width: 560px) {
       .nav-links { display: none; }
-      h1 { font-size: 2.5rem; }
+      h1, h2, h3, h4, h5, h6,
+      .project-title, .item-title, .exp-role, .tr-title, .edu-degree,
+      .tr-headline, .arsenal-title, .patent-card-name {
+        font-size: 1.5rem !important;
+      }
       .projects-grid { grid-template-columns: 1fr; }
       .exp-header { flex-direction: column; } .exp-meta { text-align: left; }
     }
