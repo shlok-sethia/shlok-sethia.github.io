@@ -549,6 +549,41 @@
       0%, 100% { opacity: 1; }
       50%       { opacity: 0; }
     }
+    /* MOBILE FIX 1: float labels use negative pixel offsets that
+       clip off-screen on phones — hide them on mobile */
+    @media (max-width: 900px) {
+      .float-label {
+        display: none;
+      }
+    }
+
+    /* MOBILE FIX 2: base section rule = padding:6rem 6rem but most
+       sections never get a mobile override, leaving a large right gap.
+       Force consistent horizontal padding. */
+    @media (max-width: 900px) {
+      section,
+      #contact {
+        padding-left: 2rem !important;
+        padding-right: 2rem !important;
+      }
+      footer {
+        padding-left: 2rem !important;
+        padding-right: 2rem !important;
+      }
+    }
+
+    @media (max-width: 560px) {
+      section,
+      #contact {
+        padding-left: 1.25rem !important;
+        padding-right: 1.25rem !important;
+      }
+      footer,
+      nav {
+        padding-left: 1.25rem !important;
+        padding-right: 1.25rem !important;
+      }
+    }
   </style>
 </head>
 <body>
